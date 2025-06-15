@@ -302,7 +302,7 @@ function App() {
     if (bloqueado || podeAvancar) return;
 
     try {
-      const res = await axios.post("http://localhost:8000/validar", {
+      const res = await axios.post("https://outliers-desafio-sql.onrender.com/validar", {
         id: questao.id,
         query: userQuery
       });
