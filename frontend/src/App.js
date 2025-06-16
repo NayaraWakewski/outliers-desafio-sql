@@ -3,288 +3,288 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const questions = [
+[
   {
     "id": 1,
-    "nivel": "F\u00e1cil",
+    "nivel": "Fácil",
     "enunciado": "Selecione todas as colunas da tabela 'clientes'",
     "resposta": "SELECT * FROM clientes",
     "dica": "Use SELECT e o caractere *"
   },
   {
     "id": 2,
-    "nivel": "F\u00e1cil",
+    "nivel": "Fácil",
     "enunciado": "Selecione apenas a coluna 'nome' da tabela 'clientes'",
     "resposta": "SELECT nome FROM clientes",
     "dica": "Use SELECT com o nome da coluna"
   },
   {
     "id": 3,
-    "nivel": "F\u00e1cil",
+    "nivel": "Fácil",
     "enunciado": "Selecione os nomes dos produtos da tabela 'produtos'",
     "resposta": "SELECT nome FROM produtos",
     "dica": "Selecione apenas a coluna 'nome'"
   },
   {
     "id": 4,
-    "nivel": "F\u00e1cil",
+    "nivel": "Fácil",
     "enunciado": "Selecione todas as colunas da tabela 'vendas'",
     "resposta": "SELECT * FROM vendas",
     "dica": "Use SELECT *"
   },
   {
     "id": 5,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione os nomes distintos da tabela 'clientes'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione os nomes distintos da tabela 'clientes', sem repetições",
     "resposta": "SELECT DISTINCT nome FROM clientes",
     "dica": "Use DISTINCT para eliminar duplicatas"
   },
   {
     "id": 6,
-    "nivel": "F\u00e1cil",
+    "nivel": "Fácil",
     "enunciado": "Selecione os clientes com idade maior que 30 na tabela 'clientes'",
     "resposta": "SELECT * FROM clientes WHERE idade > 30",
-    "dica": "Use WHERE com operador >"
+    "dica": "Use WHERE com o operador >"
   },
   {
     "id": 7,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione os produtos com pre\u00e7o menor que 100 na tabela 'produtos'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione os produtos com preço menor que R$100,00 na tabela 'produtos'",
     "resposta": "SELECT * FROM produtos WHERE preco < 100",
-    "dica": "Use WHERE com operador <"
+    "dica": "Use WHERE com o operador <"
   },
   {
     "id": 8,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione os clientes com idade igual a 25 na tabela 'clientes'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione os clientes com idade igual a 25 anos na tabela 'clientes'",
     "resposta": "SELECT * FROM clientes WHERE idade = 25",
-    "dica": "Use WHERE com ="
+    "dica": "Use WHERE com o operador ="
   },
   {
     "id": 9,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione os nomes dos clientes em ordem alfab\u00e9tica na tabela 'clientes'",
-    "resposta": "SELECT nome FROM clientes ORDER BY nome ASC",
-    "dica": "Use ORDER BY"
+    "nivel": "Fácil",
+    "enunciado": "Selecione os nomes dos clientes da tabela 'clientes', ordenando-os em ordem alfabética pela coluna 'nome'",
+    "resposta": "SELECT nome FROM clientes ORDER BY nome",
+    "dica": "Use ORDER BY. A ordem ascendente (ASC) é o padrão e pode ser omitida."
   },
   {
     "id": 10,
-    "nivel": "F\u00e1cil",
+    "nivel": "Fácil",
     "enunciado": "Selecione as 5 primeiras vendas da tabela 'vendas'",
     "resposta": "SELECT * FROM vendas LIMIT 5",
-    "dica": "Use LIMIT"
+    "dica": "Use a cláusula LIMIT para restringir o número de resultados"
   },
   {
     "id": 11,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione os produtos com nome 'Notebook' na tabela 'produtos'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione os produtos com o nome 'Notebook' na tabela 'produtos'",
     "resposta": "SELECT * FROM produtos WHERE nome = 'Notebook'",
-    "dica": "Use aspas simples para filtrar texto"
+    "dica": "Use aspas simples para filtrar por um valor de texto exato"
   },
   {
     "id": 12,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione o nome e a idade da tabela 'clientes'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione as colunas 'nome' e 'idade' da tabela 'clientes'",
     "resposta": "SELECT nome, idade FROM clientes",
-    "dica": "Separe colunas com v\u00edrgula"
+    "dica": "Separe os nomes das colunas com vírgula"
   },
   {
     "id": 13,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione os clientes do estado 'SP' na tabela 'clientes'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione os clientes que são do estado 'SP' na tabela 'clientes'",
     "resposta": "SELECT * FROM clientes WHERE estado = 'SP'",
-    "dica": "Use WHERE com texto"
+    "dica": "Filtre a coluna 'estado' usando a cláusula WHERE"
   },
   {
     "id": 14,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione a data e o valor das vendas na tabela 'vendas'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione as colunas 'data' e 'valor' da tabela 'vendas'",
     "resposta": "SELECT data, valor FROM vendas",
-    "dica": "Selecione m\u00faltiplas colunas"
+    "dica": "Selecione múltiplas colunas separando-as por vírgula"
   },
   {
     "id": 15,
-    "nivel": "F\u00e1cil",
-    "enunciado": "Selecione os clientes com idade entre 20 e 30 na tabela 'clientes'",
+    "nivel": "Fácil",
+    "enunciado": "Selecione os clientes com idade entre 20 e 30 anos (inclusive) na tabela 'clientes'",
     "resposta": "SELECT * FROM clientes WHERE idade BETWEEN 20 AND 30",
-    "dica": "Use BETWEEN"
+    "dica": "Use o operador BETWEEN para filtrar um intervalo"
   },
   {
     "id": 16,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione o n\u00famero total de clientes na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Conte o número total de registros na tabela 'clientes'",
     "resposta": "SELECT COUNT(*) FROM clientes",
-    "dica": "Use COUNT(*) para contar registros"
+    "dica": "Use COUNT(*) para contar todas as linhas de uma tabela"
   },
   {
     "id": 17,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione a m\u00e9dia das idades dos clientes na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Calcule a média de idade dos clientes utilizando a coluna 'idade' da tabela 'clientes'",
     "resposta": "SELECT AVG(idade) FROM clientes",
-    "dica": "Use AVG(coluna)"
+    "dica": "Use a função de agregação AVG(nome_da_coluna)"
   },
   {
     "id": 18,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Conte quantos clientes existem por estado na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Conte quantos clientes existem por estado, agrupando o resultado pela coluna 'estado' da tabela 'clientes'",
     "resposta": "SELECT estado, COUNT(*) FROM clientes GROUP BY estado",
-    "dica": "Use GROUP BY"
+    "dica": "Use GROUP BY para agrupar linhas com o mesmo valor na coluna 'estado'"
   },
   {
     "id": 19,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Conte quantos produtos existem por categoria na tabela 'produtos'",
+    "nivel": "Médio",
+    "enunciado": "Conte quantos produtos existem por categoria, agrupando o resultado pela coluna 'categoria' da tabela 'produtos'",
     "resposta": "SELECT categoria, COUNT(*) FROM produtos GROUP BY categoria",
-    "dica": "Use GROUP BY"
+    "dica": "Use GROUP BY para agrupar as linhas pela coluna 'categoria'"
   },
   {
     "id": 20,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione os produtos com pre\u00e7o maior que 500 e ordene pelo nome na tabela 'produtos'",
-    "resposta": "SELECT * FROM produtos WHERE preco > 500 ORDER BY nome ASC",
-    "dica": "Combine WHERE com ORDER BY"
+    "nivel": "Médio",
+    "enunciado": "Selecione os produtos com preço maior que 500 e ordene o resultado pelo nome do produto",
+    "resposta": "SELECT * FROM produtos WHERE preco > 500 ORDER BY nome",
+    "dica": "Combine a cláusula WHERE com ORDER BY"
   },
   {
     "id": 21,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione o total de vendas por m\u00eas na tabela 'vendas'",
-    "resposta": "SELECT EXTRACT(MONTH FROM data) AS mes, SUM(valor) FROM vendas GROUP BY mes",
-    "dica": "Use EXTRACT para agrupar por m\u00eas"
+    "nivel": "Médio",
+    "enunciado": "Calcule o valor total de vendas por mês, agrupando pela coluna 'data' da tabela 'vendas'",
+    "resposta": "SELECT EXTRACT(MONTH FROM data) AS mes, SUM(valor) FROM vendas GROUP BY EXTRACT(MONTH FROM data)",
+    "dica": "Use a função EXTRACT(MONTH FROM coluna_data) para obter o mês e agrupe por ele"
   },
   {
     "id": 22,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione os clientes com nome iniciando com 'A' na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Selecione os clientes cujo nome começa com a letra 'A', na tabela 'clientes'",
     "resposta": "SELECT * FROM clientes WHERE nome LIKE 'A%'",
-    "dica": "Use LIKE com %"
+    "dica": "Use o operador LIKE com o caractere curinga % para buscar padrões de texto"
   },
   {
     "id": 23,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione os produtos com nome contendo 'book' na tabela 'produtos'",
+    "nivel": "Médio",
+    "enunciado": "Selecione os produtos que contenham 'book' em seu nome, na tabela 'produtos'",
     "resposta": "SELECT * FROM produtos WHERE nome LIKE '%book%'",
-    "dica": "Use LIKE com % antes e depois"
+    "dica": "Use LIKE com % no início e no fim para encontrar um texto em qualquer parte do nome"
   },
   {
     "id": 24,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione os estados distintos da tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Selecione os estados distintos da tabela 'clientes', sem repetições",
     "resposta": "SELECT DISTINCT estado FROM clientes",
-    "dica": "Use DISTINCT"
+    "dica": "Use DISTINCT na coluna 'estado' para obter valores únicos"
   },
   {
     "id": 25,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione os clientes com idade entre 25 e 35 ordenados por idade na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Selecione os clientes com idade entre 25 e 35 anos, ordenando-os pela coluna 'idade'",
     "resposta": "SELECT * FROM clientes WHERE idade BETWEEN 25 AND 35 ORDER BY idade",
-    "dica": "Combine BETWEEN com ORDER BY"
+    "dica": "Combine o operador BETWEEN com a cláusula ORDER BY"
   },
   {
     "id": 26,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione o maior valor de venda registrado na tabela 'vendas'",
+    "nivel": "Médio",
+    "enunciado": "Selecione o maior valor de venda registrado na tabela 'vendas' usando a coluna 'valor'",
     "resposta": "SELECT MAX(valor) FROM vendas",
-    "dica": "Use MAX()"
+    "dica": "Use a função de agregação MAX() para encontrar o maior valor"
   },
   {
     "id": 27,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Conte quantos clientes existem com idade maior que 30 na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Conte quantos clientes têm idade superior a 30 anos na tabela 'clientes'",
     "resposta": "SELECT COUNT(*) FROM clientes WHERE idade > 30",
-    "dica": "Use COUNT com filtro"
+    "dica": "Combine a função COUNT(*) com uma cláusula WHERE para contar linhas que atendem a um critério"
   },
   {
     "id": 28,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione a categoria e pre\u00e7o m\u00e9dio dos produtos na tabela 'produtos'",
+    "nivel": "Médio",
+    "enunciado": "Calcule o preço médio dos produtos para cada categoria, usando as colunas 'categoria' e 'preco'",
     "resposta": "SELECT categoria, AVG(preco) FROM produtos GROUP BY categoria",
-    "dica": "Use GROUP BY com AVG"
+    "dica": "Use GROUP BY na coluna 'categoria' e a função AVG() na coluna 'preco'"
   },
   {
     "id": 29,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Selecione os clientes dos estados 'SP' ou 'RJ' na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Selecione os clientes que são dos estados 'SP' ou 'RJ' na tabela 'clientes'",
     "resposta": "SELECT * FROM clientes WHERE estado IN ('SP', 'RJ')",
-    "dica": "Use IN"
+    "dica": "Use o operador IN para verificar se um valor corresponde a qualquer valor em uma lista"
   },
   {
     "id": 30,
-    "nivel": "M\u00e9dio",
-    "enunciado": "Conte quantos clientes por faixa et\u00e1ria (idade) na tabela 'clientes'",
+    "nivel": "Médio",
+    "enunciado": "Conte quantos clientes existem para cada idade, agrupando pela coluna 'idade' na tabela 'clientes'",
     "resposta": "SELECT idade, COUNT(*) FROM clientes GROUP BY idade",
-    "dica": "Use GROUP BY idade"
+    "dica": "Use GROUP BY na coluna 'idade' para contar clientes por faixa etária"
   },
   {
     "id": 31,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione os nomes dos clientes e seus respectivos valores de compra na tabela 'clientes'",
+    "nivel": "Difícil",
+    "enunciado": "Selecione os nomes dos clientes e o valor de cada uma de suas compras, juntando as tabelas 'clientes' e 'vendas'",
     "resposta": "SELECT clientes.nome, vendas.valor FROM clientes INNER JOIN vendas ON clientes.id = vendas.cliente_id",
-    "dica": "Use INNER JOIN para combinar tabelas"
+    "dica": "Use INNER JOIN para combinar linhas de duas tabelas com base em uma condição de junção (clientes.id = vendas.cliente_id)"
   },
   {
     "id": 32,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione os clientes que n\u00e3o s\u00e3o do estado 'SP' nem 'RJ' na tabela 'clientes'",
+    "nivel": "Difícil",
+    "enunciado": "Selecione os clientes que não são do estado 'SP' nem 'RJ' na tabela 'clientes'",
     "resposta": "SELECT * FROM clientes WHERE estado NOT IN ('SP', 'RJ')",
-    "dica": "Use NOT IN"
+    "dica": "Use o operador NOT IN para excluir valores de uma lista"
   },
   {
     "id": 33,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione os produtos com pre\u00e7o entre 100 e 300 e que contenham 'Pro' no nome na tabela 'produtos'",
+    "nivel": "Difícil",
+    "enunciado": "Selecione os produtos com preço entre 100 e 300 e que contenham 'Pro' no nome",
     "resposta": "SELECT * FROM produtos WHERE preco BETWEEN 100 AND 300 AND nome LIKE '%Pro%'",
-    "dica": "Combine BETWEEN e LIKE com AND"
+    "dica": "Combine os operadores BETWEEN e LIKE com o operador lógico AND"
   },
   {
     "id": 34,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione a m\u00e9dia de valor das vendas acima de R$200 na tabela 'vendas'",
+    "nivel": "Difícil",
+    "enunciado": "Calcule a média de valor das vendas que foram acima de R$200",
     "resposta": "SELECT AVG(valor) FROM vendas WHERE valor > 200",
-    "dica": "Use AVG com filtro"
+    "dica": "Use a função AVG com uma cláusula WHERE para calcular a média de um subconjunto de dados"
   },
   {
     "id": 35,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione os nomes dos clientes com mais de 2 registros de venda na tabela 'clientes'",
-    "resposta": "SELECT clientes.nome FROM clientes JOIN vendas ON clientes.id = vendas.cliente_id GROUP BY clientes.nome HAVING COUNT(*) > 2",
-    "dica": "Use HAVING ap\u00f3s GROUP BY"
+    "nivel": "Difícil",
+    "enunciado": "Selecione o nome dos clientes que realizaram mais de 2 compras, agrupando pela coluna 'clientes.nome'",
+    "resposta": "SELECT clientes.nome FROM clientes JOIN vendas ON clientes.id = vendas.cliente_id GROUP BY clientes.nome HAVING COUNT(vendas.id) > 2",
+    "dica": "Use a cláusula HAVING para filtrar resultados de um grupo após a agregação"
   },
   {
     "id": 36,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Liste os nomes dos clientes que n\u00e3o realizaram vendas na tabela 'clientes'",
-    "resposta": "SELECT nome FROM clientes WHERE id NOT IN (SELECT cliente_id FROM vendas)",
-    "dica": "Use subquery com NOT IN"
+    "nivel": "Difícil",
+    "enunciado": "Liste os nomes dos clientes que ainda não realizaram nenhuma compra",
+    "resposta": "SELECT nome FROM clientes WHERE id NOT IN (SELECT DISTINCT cliente_id FROM vendas)",
+    "dica": "Use uma subconsulta (subquery) com NOT IN para encontrar clientes sem correspondência na tabela de vendas"
   },
   {
     "id": 37,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione os clientes que t\u00eam o mesmo estado que algum outro cliente na tabela 'clientes'",
+    "nivel": "Difícil",
+    "enunciado": "Selecione os clientes que moram em um estado onde há mais de um cliente cadastrado",
     "resposta": "SELECT * FROM clientes WHERE estado IN (SELECT estado FROM clientes GROUP BY estado HAVING COUNT(*) > 1)",
-    "dica": "Use subquery com GROUP BY"
+    "dica": "Use uma subconsulta que agrupa por estado e filtra aqueles com contagem maior que 1"
   },
   {
     "id": 38,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione o produto mais caro da tabela",
-    "resposta": "SELECT * FROM produtos WHERE preco = (SELECT MAX(preco) FROM produtos)",
-    "dica": "Use subquery com MAX"
+    "nivel": "Difícil",
+    "enunciado": "Selecione o produto mais caro da tabela 'produtos'",
+    "resposta": "SELECT * FROM produtos ORDER BY preco DESC LIMIT 1",
+    "dica": "Uma forma eficiente é ordenar por preço em ordem decrescente (DESC) e limitar o resultado a 1."
   },
   {
     "id": 39,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Selecione a idade m\u00e9dia dos clientes do estado 'SP' na tabela 'clientes'",
+    "nivel": "Difícil",
+    "enunciado": "Calcule a idade média dos clientes que são do estado 'SP'",
     "resposta": "SELECT AVG(idade) FROM clientes WHERE estado = 'SP'",
-    "dica": "Use AVG com filtro"
+    "dica": "Combine a função AVG com a cláusula WHERE para calcular a média de um grupo específico"
   },
   {
     "id": 40,
-    "nivel": "Dif\u00edcil",
-    "enunciado": "Liste as vendas do m\u00eas de janeiro na tabela 'vendas', , considerando que a coluna 'data' está no formato DATE padrão (YYYY-MM-DD)`.",
-    "resposta": "SELECT * FROM vendas WHERE EXTRACT(MONTH FROM data) = '01'",
-    "dica": "Use EXTRACT para filtrar por m\u00eas"
+    "nivel": "Difícil",
+    "enunciado": "Liste todas as vendas que ocorreram no mês de janeiro (mês 1), filtrando pela coluna 'data'",
+    "resposta": "SELECT * FROM vendas WHERE EXTRACT(MONTH FROM data) = 1",
+    "dica": "Use a função EXTRACT(MONTH FROM coluna_data) e compare o resultado com o número do mês desejado"
   }
-];
+]
 
 function App() {
   const [index, setIndex] = useState(0);
@@ -443,7 +443,7 @@ if (index >= questions.length) {
           rows={5}
           value={userQuery}
           onChange={(e) => setUserQuery(e.target.value)}
-          placeholder="Escreva sua consulta SQL aqui..."
+          placeholder="Escreva sua consulta SQL aqui - SGBD para testar é o POSTGRES..."
         />
         <p style={{ marginBottom: "0.5rem" }}>Tentativas: {Math.min(3, 3 - tentativasRestantes + 1)}/3</p>
         {!podeAvancar && !bloqueado && (
